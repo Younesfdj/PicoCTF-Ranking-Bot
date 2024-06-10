@@ -2,12 +2,12 @@
 import os
 from discord import Intents, Client, Message
 from dotenv import load_dotenv
-from typing import Final
 from loguru import logger
-
+from utils.responses import generate_response
 # load the token 
 load_dotenv()
-TOKEN: Final["str"] = os.getenv('DISCORD_TOKEN')
+TOKEN: str = os.getenv('DISCORD_TOKEN')
+DATA_FILE: str = os.getenv('DATA_FILE_PATH')
 
 # bot setup
 intents: Intents = Intents.default()
@@ -17,13 +17,14 @@ client: Client = Client(intents=intents)
 # message func
 async def send_message(message:Message, user_message:str) -> None:
     if not user_message:
-        print('empty message')
+        logger.warning('empty message')
         return 
-    if "/rank" in user_message : 
+    if "/picoCTF" in user_message.split() : 
         try:
-            await message.channel.send("here's your rank")
+            response = generate_response(user_message,DATA_FILE)
+            await message.channel.send(response)
         except Exception as e:
-            print(e)
+            logger.error(f'Error: {e}')
 
 # bot startup 
 @client.event
@@ -42,7 +43,7 @@ async def on_message(message:Message) -> None:
     await send_message(message, message.content)
 
 # run the bot
-def main() -> None: 
+def main() -> None:
     client.run(TOKEN, log_handler=None)
 
 if __name__ == "__main__":
