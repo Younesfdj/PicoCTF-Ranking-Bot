@@ -12,3 +12,7 @@ def leaderboard_formatter(leaderboard:list)->str:
         formatted_leaderboard += f"{rank}. {leaderboard[i][0]} - {leaderboard[i][1]}pts\n"
     formatted_leaderboard += "```"
     return formatted_leaderboard
+
+def user_rank_formatter(user_rank:list | int)->str:
+    # format the user rank
+    return "```You are not on the leaderboard```" if user_rank == -1 else f"```🎖️. {user_rank[0]} - {user_rank[1]}pts```"
