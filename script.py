@@ -36,10 +36,6 @@ async def on_ready() -> None:
 async def on_message(message:Message) -> None:
     if message.author == client.user:
         return
-    author: str = str(message.author)
-    channel:str = str(message.channel)
-
-    logger.info(f'Received message from {author} in {channel}')
     await send_message(message, message.content)
 
 # run the bot
