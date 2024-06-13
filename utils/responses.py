@@ -1,10 +1,17 @@
-from utils.csv_utils import extractLeaderboard, getUserRank
+from utils.leaderboard import extractLeaderboard, getUserRank
 from utils.message_formatters import leaderboard_formatter, user_rank_formatter
+from dotenv import load_dotenv
+from utils.api_request import getLeaderboard
+import os 
 
+load_dotenv()
+DATA_FILE: str = os.getenv('DATA_FILE_PATH')
 
-def generate_response(user_message:str,csvFile)->str:
+def generate_response(user_message:str,csvFile=DATA_FILE)->str:
     input_text = user_message.split("/picoCTF")[1].strip().split()
-    leaderboard = extractLeaderboard(csvFile)
+    leaderboard = getLeaderboard()
+    if leaderboard == -1:
+        leaderboard = extractLeaderboard(csvFile)
     if "leaderboard" in input_text: 
         return leaderboard_formatter(leaderboard)
     elif "rank" in input_text:

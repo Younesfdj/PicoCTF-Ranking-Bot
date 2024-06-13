@@ -1,1 +1,1 @@
-discord python-dotenv loguru
+discord python-dotenv loguru requests

@@ -3,6 +3,7 @@ import requests
 from dotenv import load_dotenv
 import os
 from loguru import logger
+from utils.leaderboard import makeLeaderboard
 
 load_dotenv()
 USERNAME: str = os.getenv('PICOCTF_USERNAME')
@@ -29,11 +30,11 @@ def login(url:str,cred:dict, headers:dict)->dict | int:
     logger.error(f'Error: {e}')
     return -1
 
-def getLeaderboard(url:str, headers:dict)->dict | int:
+def getLeaderboard(url:str=CLASSROOM_URL, headers:dict=HEADERS)->dict | int:
   try:
     cookies = login(LOGIN_URL,LOGIN_CRED,HEADERS)
     res = requests.get(url,cookies = cookies, headers=headers)
-    return dict(res.json())
+    return makeLeaderboard(dict(res.json()))
   except Exception as e:
     logger.error(f'Error: {e}')
     return -1

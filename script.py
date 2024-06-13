@@ -7,7 +7,6 @@ from utils.responses import generate_response
 # load the token 
 load_dotenv()
 TOKEN: str = os.getenv('DISCORD_TOKEN')
-DATA_FILE: str = os.getenv('DATA_FILE_PATH')
 
 # bot setup
 intents: Intents = Intents.default()
@@ -21,7 +20,7 @@ async def send_message(message:Message, user_message:str) -> None:
         return 
     if "/picoCTF" in user_message.split() : 
         try:
-            response = generate_response(user_message,DATA_FILE)
+            response = generate_response(user_message)
             await message.channel.send(response)
         except Exception as e:
             logger.error(f'Error: {e}')

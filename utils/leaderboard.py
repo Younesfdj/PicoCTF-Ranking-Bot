@@ -34,3 +34,12 @@ def getUserRank(leaderboard:list, user:str)->int|list:
             return leaderboard[i]
     return -1
 
+def makeLeaderboard(leaderboard:dict)->list:
+    # make the leaderboard
+    leaderboardList = []
+    for user in leaderboard.get("results"):
+        leaderboardList.append([
+            user.get("username"),
+            user.get("score")
+        ])
+    return orderLeaderboard(leaderboardList)
