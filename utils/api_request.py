@@ -27,6 +27,7 @@ def login(url:str,cred:dict, headers:dict)->dict | int:
     cookies = res.cookies.get_dict()
     return cookies
   except Exception as e: 
+    logger.warn('An error occured while logging in')
     logger.error(f'Error: {e}')
     return -1
 
@@ -36,5 +37,6 @@ def getLeaderboard(url:str=CLASSROOM_URL, headers:dict=HEADERS)->dict | int:
     res = requests.get(url,cookies = cookies, headers=headers)
     return makeLeaderboard(dict(res.json()))
   except Exception as e:
+    logger.warn('An error occured while fetching the leaderboard')
     logger.error(f'Error: {e}')
     return -1
